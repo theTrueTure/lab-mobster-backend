@@ -1,38 +1,39 @@
 var express = require('express');
 var router = express.Router();
 
-let mobs = [];
+let database = [{
+  "id": 1676464991028,
+  "name": "amber"
+}];
 
 /* GET mob listing. */
 router.get('/', function(req, res, next) {
   res.send({
-    name: {
-      mobs
+    mobs: {
+      database
     }
   })
 });
 
 /* Add a new mobmember. */
 router.post('/', function(req, res, next) {
-  const mob = req.body.mob;
-  mobs.push({
+  const mob = req.body.name;
+  database.push({
     id: Date.now(),
-    mob
+    name: mob
   });
   res.send({
-    name: {
-      mobs
-    }
+      mobname: database
   })
 });
 
-/* Add a new mobmember. */
+/* Add a delete mobmember. */
 router.delete('/:id', function(req, res, next) {
   const mobId = req.params.id;
-  mobs = mobs.filter(mob => mob.id !== Number(mobId));
+  database = database.filter(mob => mob.id !== Number(mobId));
   res.send({
-    name: {
-      mobs
+    mobs: {
+      database
     }
   })
 });
