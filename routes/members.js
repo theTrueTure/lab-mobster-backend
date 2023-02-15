@@ -27,7 +27,6 @@ router.get('/:mobId', function(req, res, next) {
 router.post('/:id', function(req, res, next) {
   const memberName = req.body.name;
   const mobId = Number(req.params.id);
-  console.log('assign mobid: ', mobId, 'with origin request in URL: ', req.params.id,  ' to ', memberName)
   dbOfMembers.push({
     mobID: mobId,
     memberId: Date.now(),
