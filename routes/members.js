@@ -3,21 +3,34 @@ var router = express.Router();
 
 let dbOfMembers = [];
 
-/* GET mob listing. */
-router.get('/', function(req, res, next) {
-  res.send({
-    name: {
-      dbOfMembers
+/* GET members listing. */
+router.get('/',  (req, res, next) => {
+  res.send({dbOfMembers})
+})
+
+router.get('/:mobId', function(req, res, next) {
+  const mobId = Number(req.params.mobId);
+  let result = [];
+  for (let i = 0; i < dbOfMembers.length; i++){
+    if (dbOfMembers[i].mobID === mobId) {
+      result.push(dbOfMembers[i])
     }
+  }
+  res.send({
+      result
   })
 });
+
+
 
 /* Add a new mobmember. */
 router.post('/:id', function(req, res, next) {
   const memberName = req.body.name;
-  const mobId = req.params.id;
+  const mobId = Number(req.params.id);
+  console.log('assign mobid: ', mobId, 'with origin request in URL: ', req.params.id,  ' to ', memberName)
   dbOfMembers.push({
     mobID: mobId,
+    memberId: Date.now(),
     name: memberName
   });
   res.send({
@@ -26,9 +39,9 @@ router.post('/:id', function(req, res, next) {
 });
 
 /* Add a delete mobmember. */
-router.delete('/:name', function(req, res, next) {
-  const memberName = req.params.name;
-  dbOfMembers = dbOfMembers.filter(mob => mob.name !== memberName);
+router.delete('/:memberId', function(req, res, next) {
+  const memberId = req.params.memberId;
+  dbOfMembers = dbOfMembers.filter(member => member.memberId !== Number(memberId));
   res.send({
       dbOfMembers
   })
