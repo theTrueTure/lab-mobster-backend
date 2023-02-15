@@ -1,16 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
-let database = [{
-  "id": 1676464991028,
-  "name": "amber"
-}];
+const { mobs, members } = require('./db.js');
 
 /* GET mob listing. */
 router.get('/', function(req, res, next) {
   res.send({
     mobs: {
-      database
+      mobs
+    }
+  })
+});
+
+/* GET members in a mob. */
+router.get('/:mobID/members', function(req, res, next) {
+  const mobID = req.params.mobID
+  const memberList = []
+  members.map(member => {
+    if (member.mobID === Number(mobID)) {
+      memberList.push(member)
+    }})
+  res.send({
+    mobMembers: {
+      memberList
     }
   })
 });
@@ -18,22 +30,22 @@ router.get('/', function(req, res, next) {
 /* Add a new mobmember. */
 router.post('/', function(req, res, next) {
   const mob = req.body.name;
-  database.push({
+  mobs.push({
     id: Date.now(),
     name: mob
   });
   res.send({
-      mobname: database
+      mobname: mobs
   })
 });
 
 /* Add a delete mobmember. */
 router.delete('/:id', function(req, res, next) {
-  const mobId = req.params.id;
-  database = database.filter(mob => mob.id !== Number(mobId));
+  const mobID = req.params.id;
+  mobs = mobs.filter(mob => mob.id !== Number(mobID));
   res.send({
     mobs: {
-      database
+      mobs
     }
   })
 });
