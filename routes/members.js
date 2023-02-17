@@ -10,8 +10,8 @@ router.get('/', (req, res, next) => {
 
 /* Add a new mobmember. */
 router.post('/:id', function (req, res, next) {
-	const memberName = req.body.name;
-	const mobId = Number(req.params.id);
+	let memberName = req.body.name;
+	let mobId = Number(req.params.id);
 	members.push({
 		mobID: mobId,
 		memberId: Date.now(),
@@ -24,7 +24,7 @@ router.post('/:id', function (req, res, next) {
 
 /* Add a delete mobmember. */
 router.delete('/:memberId', function (req, res, next) {
-	const memberId = req.params.memberId;
+	let memberId = req.params.memberId;
 	members = members.filter(member => member.memberId !== Number(memberId));
 	res.send({
 		members,
