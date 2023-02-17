@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { members } = require('./db.js');
+let { members } = require('./db.js');
 
 /* GET members listing. */
 router.get('/', (req, res, next) => {
